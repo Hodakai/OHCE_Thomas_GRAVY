@@ -4,32 +4,37 @@ namespace OHCE;
 
 public class Ohce
 {
-    public Ohce() { }
+    private readonly ILangue _langue;
+
+    public Ohce(ILangue langue)
+    {
+        _langue = langue;
+    }
 
     public string Palindrome(string input)
     {
-        var bonjour = new string(DireBonjour());
-        var auRevoir = new string(DireAuRevoir());
+        var bonjour = new string(Bonjour());
+        var auRevoir = new string(AuRevoir());
         var fullString = new StringBuilder(bonjour + '\n');
         var reversed = new string(input.Reverse().ToArray());
 
         if (reversed.Equals(input)) {
-            fullString.Append("Palindrome : " + reversed + "\n" + "Bien dit !\n");
+            fullString.Append("Palindrome : " + reversed + "\n" + _langue.BienDit + "\n");
         } else {
-            fullString.Append("Mot inversé : " + reversed + "\n");
+            fullString.Append(_langue.MotInverse + " : " + reversed + "\n");
         }
 
         fullString.Append(auRevoir);
         return fullString.ToString();
     }
 
-    public string DireBonjour()
+    public string Bonjour()
     {
-        return "Bonjour";
+        return _langue.Bonjour;
     }
 
-    public string DireAuRevoir()
+    public string AuRevoir()
     {
-        return "Au revoir";
+        return _langue.AuRevoir;
     }
 }
