@@ -1,0 +1,12 @@
+{
+    "configurations": [
+        {
+            "type": "dotnet",
+            "name": "OHCE_Thomas_GRAVY",
+            "projectPath": "",
+            "exePath": "",
+            "args": [],
+        },
+        
+    ]
+}
