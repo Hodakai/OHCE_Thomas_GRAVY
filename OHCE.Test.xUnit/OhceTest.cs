@@ -41,35 +41,49 @@ public class OhceTest
         new LangueFrançaise()
     };
 
+    private static readonly IEnumerable<PeriodeJournee> Périodes = new PeriodeJournee[]
+    {
+        PeriodeJournee.Defaut,
+        PeriodeJournee.Matin,
+        PeriodeJournee.AprèsMidi,
+        PeriodeJournee.Soir,
+        PeriodeJournee.Nuit
+    };
+
     public static IEnumerable<object[]> LanguesSeules => new CartesianData(Langues);
+    public static IEnumerable<object[]> LanguesEtPériodes => new CartesianData(Langues, Périodes);
 
     [Theory(DisplayName = "ETANT DONNE un utilisateur parlant une langue" +
+        "ET que la période de la journée est <période>" +
         "QUAND l'app démarre " +
         "ALORS <bonjour> de cette langue à cette période est envoyé")]
     [MemberData(nameof(LanguesSeules))]
-    public void DémarrageTest(ILangue langue)
+    public void DémarrageTest(ILangue langue, PeriodeJournee periode)
     {
         var ohce = new OhceBuilder()
             .AyantPourLangue(langue)
+            .AyantPourPeriodeDeLaJournee(periode)
             .Build();
 
         var reversed = ohce.Palindrome(string.Empty);
 
-        Assert.StartsWith(langue.Bonjour, reversed);
+        Assert.StartsWith(langue.Bonjour(periode), reversed);
     }
 
     [Theory(DisplayName = "ETANT DONNE un utilisateur parlant une langue" +
+        "ET que la période de la journée est <période>" +
         "QUAND l'app se ferme " +
         "ALORS <auRevoir> dans cette langue est envoyé")]
     [MemberData(nameof(LanguesSeules))]
-    public void FermetureTest(ILangue langue)
+    public void FermetureTest(ILangue langue, PeriodeJournee periode)
     {
         var ohce = new OhceBuilder()
             .AyantPourLangue(langue)
+            .AyantPourPeriodeDeLaJournee(periode)
             .Build();
 
         var reversed = ohce.Palindrome(string.Empty);
 
-        Assert.EndsWith(langue.AuRevoir, reversed);
+        Assert.EndsWith(langue.AuRevoir(periode), reversed);
     }
 }
