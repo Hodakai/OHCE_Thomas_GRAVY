@@ -1,3 +1,4 @@
+using System.Text;
 using OHCE.Langues;
 using OHCE.Test.xUnit.Utilities;
 using OHCE.Test.xUnit.Utilities.Builders;
@@ -32,7 +33,7 @@ public class OhceTest
         const string palindrome = "kayak";
         var reversed = ohce.Palindrome(palindrome);
 
-        Assert.Contains(palindrome + langue.BienDit, reversed);
+        Assert.Contains(palindrome + "\n" + langue.BienDit, reversed);
     }
 
     private static readonly IEnumerable<ILangue> Langues = new ILangue[]
@@ -57,7 +58,7 @@ public class OhceTest
         "ET que la période de la journée est <période>" +
         "QUAND l'app démarre " +
         "ALORS <bonjour> de cette langue à cette période est envoyé")]
-    [MemberData(nameof(LanguesSeules))]
+    [MemberData(nameof(LanguesEtPériodes))]
     public void DémarrageTest(ILangue langue, PeriodeJournee periode)
     {
         var ohce = new OhceBuilder()
@@ -74,7 +75,7 @@ public class OhceTest
         "ET que la période de la journée est <période>" +
         "QUAND l'app se ferme " +
         "ALORS <auRevoir> dans cette langue est envoyé")]
-    [MemberData(nameof(LanguesSeules))]
+    [MemberData(nameof(LanguesEtPériodes))]
     public void FermetureTest(ILangue langue, PeriodeJournee periode)
     {
         var ohce = new OhceBuilder()
